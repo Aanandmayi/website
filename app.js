@@ -4,8 +4,11 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const ejs = require('ejs');
 const methodoverride = require('method-override');
+const sgMail = require('@sendgrid/mail');
 
 
+const sgapi='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'
+sgMail.setApiKey(sgapi)
 const app = express()
 app.use(express.static(__dirname + '/public'))
 app.use(methodoverride('_method'))
@@ -23,7 +26,6 @@ const foodschema=new mongoose.Schema({
     food:String,
     occatioin:String
 })
-
 const reservation=mongoose.model('reservation',foodschema)
 
 
@@ -31,8 +33,7 @@ app.get('/', (req, res) => {
     res.render("index.ejs")
 })
 
-
-
+// const mailid
 app.post('/reservation',(req,res)=>{
     console.log(req.body);
     const reservme={
@@ -53,9 +54,21 @@ app.post('/reservation',(req,res)=>{
         }
     })
     res.render('redirect.ejs');
+
+
+
+//SENDING MAILS
+    const mailid=(req.body.email).toString()
+    console.log(mailid);
+    sgMail.send({
+    to:mailid,
+    from:'jhaanand841@gmail.com',
+    subject:'FoodFunday registration',
+    text:'you are registered on foodfunday please do visit and enjoy your meal with the best chefs you will find on the planet '
+    })
 })
 
-
+//setting up the port
 app.listen(4000, () => {
     console.log('Server is up on port 4000.')
 })
