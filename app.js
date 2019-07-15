@@ -12,49 +12,47 @@ app.use(methodoverride('_method'))
 app.use(bodyParser.urlencoded({extended: true}));
 
 
-// mongoose.connect("mongodb://localhost/foodfunday");
-// const foodschema=new mongoose.Schema({
-//     name:String,
-//     mail:String,
-//     contact:String,
-//     guests:Number,
-//     Date:Date,
-//     Time:String,
-//     food:String,
-//     occatioin:String
-// })
-//
-// const reservation=mongoose.model('reservation',foodschema)
-//
-// const reservation1={
-//     name:"Anand",
-//     mail:"anands@123",
-//     contact:"58654984",
-//     guests:5,
-//     Date:12/12/1112,
-//     Time:"4554",
-//     food:"kopta",
-//     occatioin:"marraige"
-// }
+mongoose.connect("mongodb://localhost/foodfunday",{ useNewUrlParser: true });
+const foodschema=new mongoose.Schema({
+    name:String,
+    mail:String,
+    contact:String,
+    guests:Number,
+    Date:String,
+    Time:String,
+    food:String,
+    occatioin:String
+})
 
-// reservation.create(reservation1,(err,reserv)=>{
-//     if (err) {
-//         console.log(err);
-//     } else {
-//         console.log(reserv);
-//     }
-// })
-
-
+const reservation=mongoose.model('reservation',foodschema)
 
 
 app.get('/', (req, res) => {
     res.render("index.ejs")
 })
 
+
+
 app.post('/reservation',(req,res)=>{
     console.log(req.body);
-
+    const reservme={
+        name:req.body.form_name,
+        mail:req.body.email,
+        contact:req.body.phone,
+        guests:req.body.no_of_persons,
+        food:req.body.preferred_food,
+        Date:req.body.datepicker,
+        Time:req.body.timepicker,
+        occatioin:req.body.occasion
+    }
+    reservation.create(reservme,(err,reserv)=>{
+        if (err) {
+            console.log(err);
+        } else {
+            console.log(reserv);
+        }
+    })
+    res.render('redirect.ejs');
 })
 
 
