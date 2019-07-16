@@ -6,7 +6,6 @@ const ejs = require('ejs')
 const methodoverride = require('method-override')
 const sgMail = require('@sendgrid/mail')
 
-
 const sgapi='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'
 sgMail.setApiKey(sgapi)
 const app = express()
@@ -14,7 +13,6 @@ app.use(express.static(__dirname + '/public'))
 app.use(methodoverride('_method'))
 app.use(bodyParser.urlencoded({extended: true}));
 const port=process.env.PORT || 4000
-
 
 mongoose.connect("mongodb://localhost/foodfunday",{ useNewUrlParser: true });
 const foodschema=new mongoose.Schema({
@@ -28,7 +26,6 @@ const foodschema=new mongoose.Schema({
     occatioin:String
 })
 const reservation=mongoose.model('reservation',foodschema)
-
 
 app.get('/', (req, res) => {
     res.render("index.ejs")
