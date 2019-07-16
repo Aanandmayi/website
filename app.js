@@ -1,10 +1,10 @@
 const path = require('path')
 const express = require('express')
-const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
-const ejs = require('ejs');
-const methodoverride = require('method-override');
-const sgMail = require('@sendgrid/mail');
+const mongoose = require('mongoose')
+const bodyParser = require('body-parser')
+const ejs = require('ejs')
+const methodoverride = require('method-override')
+const sgMail = require('@sendgrid/mail')
 
 
 const sgapi='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'
@@ -13,6 +13,7 @@ const app = express()
 app.use(express.static(__dirname + '/public'))
 app.use(methodoverride('_method'))
 app.use(bodyParser.urlencoded({extended: true}));
+const port=process.env.PORT || 4000
 
 
 mongoose.connect("mongodb://localhost/foodfunday",{ useNewUrlParser: true });
@@ -69,6 +70,6 @@ app.post('/reservation',(req,res)=>{
 })
 
 //setting up the port
-app.listen(4000, () => {
-    console.log('Server is up on port 4000.')
+app.listen(port, () => {
+    console.log('Server is up on port '+ port +'.')
 })
